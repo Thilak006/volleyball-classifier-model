@@ -44,7 +44,7 @@ def main():
     data_root = Path("data")
     train_dir = data_root / "train"
     if not train_dir.exists():
-        raise SystemExit("❌ data/train not found. Create data/train/real and data/train/fake with images.")
+        raise SystemExit("data/train not found. Create data/train/real and data/train/fake with images.")
 
     # Ensure we have a validation split (data/val or auto one)
     val_dir = ensure_val_split(data_root, val_ratio=0.2)
@@ -68,13 +68,13 @@ def main():
     # Find the latest best.pt and copy it to a friendly filename
     weights = list((Path("runs_cls")).rglob("weights/best.pt"))
     if not weights:
-        raise SystemExit("❌ Could not locate best.pt in runs_cls/*/weights/")
+        raise SystemExit("Could not locate best.pt in runs_cls/*/weights/")
     # pick the most recently modified
     weights.sort(key=lambda p: p.stat().st_mtime, reverse=True)
     best_path = weights[0]
     out_path = Path("yolo11n-cls-real-fake.pt")
     shutil.copy2(best_path, out_path)
-    print(f"✅ Model saved as {out_path} (copied from {best_path})")
+    print(f"Model saved as {out_path} (copied from {best_path})")
 
 if __name__ == "__main__":
     main()
